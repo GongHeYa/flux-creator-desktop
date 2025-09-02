@@ -96,7 +96,11 @@
         }
       ],
       "category": "public.app-category.graphics-design",
-      "icon": "build/icon.icns"
+      "icon": "build/icon.icns",
+      "identity": null,
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "notarize": false
     },
     "win": {
       "target": [
