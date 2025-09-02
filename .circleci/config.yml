@@ -1,0 +1,142 @@
+# CircleCI 配置文件
+# 作为 GitHub Actions 的替代方案
+
+version: 2.1
+
+orbs:
+  node: circleci/node@5.1.0
+  windows: circleci/windows@5.0.0
+  macos: circleci/macos@2.4.1
+
+jobs:
+  build-linux:
+    docker:
+      - image: cimg/node:18.17
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+          app-dir: frontend
+      - run:
+          name: Build frontend
+          command: |
+            cd frontend
+            npm run build
+      - run:
+          name: Build Linux Electron app
+          command: |
+            cd frontend
+            npm run dist -- --linux
+      - store_artifacts:
+          path: frontend/dist-packages
+          destination: linux-builds
+      - persist_to_workspace:
+          root: frontend
+          paths:
+            - dist-packages
+
+  build-macos:
+    macos:
+      xcode: 14.3.1
+    steps:
+      - checkout
+      - node/install:
+          node-version: '18.17'
+      - run:
+          name: Install dependencies
+          command: |
+            cd frontend
+            npm install
+      - run:
+          name: Build frontend
+          command: |
+            cd frontend
+            npm run build
+      - run:
+          name: Build macOS Electron app
+          command: |
+            cd frontend
+            export CSC_IDENTITY_AUTO_DISCOVERY=false
+            npm run dist -- --mac
+      - store_artifacts:
+          path: frontend/dist-packages
+          destination: macos-builds
+      - persist_to_workspace:
+          root: frontend
+          paths:
+            - dist-packages
+
+  build-windows:
+    executor:
+      name: windows/default
+      size: medium
+    steps:
+      - checkout
+      - node/install:
+          node-version: '18.17'
+      - run:
+          name: Install dependencies
+          command: |
+            cd frontend
+            npm install
+      - run:
+          name: Build frontend
+          command: |
+            cd frontend
+            npm run build
+      - run:
+          name: Build Windows Electron app
+          command: |
+            cd frontend
+            npm run dist -- --win
+      - store_artifacts:
+          path: frontend/dist-packages
+          destination: windows-builds
+      - persist_to_workspace:
+          root: frontend
+          paths:
+            - dist-packages
+
+  create-release:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Create GitHub Release
+          command: |
+            echo "Release artifacts available in CircleCI artifacts"
+            echo "Manual step: Download artifacts and create GitHub release"
+
+workflows:
+  build-and-release:
+    jobs:
+      - build-linux:
+          filters:
+            branches:
+              only: main
+            tags:
+              only: /^v.*/
+      - build-macos:
+          filters:
+            branches:
+              only: main
+            tags:
+              only: /^v.*/
+      - build-windows:
+          filters:
+            branches:
+              only: main
+            tags:
+              only: /^v.*/
+      - create-release:
+          requires:
+            - build-linux
+            - build-macos
+            - build-windows
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/

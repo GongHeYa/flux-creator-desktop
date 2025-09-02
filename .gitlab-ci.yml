@@ -1,0 +1,98 @@
+# GitLab CI/CD 配置文件
+# 作为 GitHub Actions 的替代方案
+
+stages:
+  - build
+  - release
+
+variables:
+  NODE_VERSION: "18"
+
+# Linux 构建
+build:linux:
+  stage: build
+  image: node:18-alpine
+  before_script:
+    - apk add --no-cache git python3 make g++ libx11-dev libxkbfile-dev libsecret-dev
+    - cd frontend
+    - npm install
+  script:
+    - npm run build
+    - npm run dist -- --linux
+  artifacts:
+    paths:
+      - frontend/dist-packages/*.AppImage
+      - frontend/dist-packages/*.deb
+      - frontend/dist-packages/*.rpm
+      - frontend/dist-packages/*.snap
+    expire_in: 1 week
+  only:
+    - main
+    - tags
+
+# macOS 构建（需要 macOS runner）
+build:macos:
+  stage: build
+  tags:
+    - macos
+  before_script:
+    - cd frontend
+    - npm install
+  script:
+    - npm run build
+    - npm run dist -- --mac
+  artifacts:
+    paths:
+      - frontend/dist-packages/*.dmg
+      - frontend/dist-packages/*.zip
+    expire_in: 1 week
+  only:
+    - main
+    - tags
+  allow_failure: true
+
+# Windows 构建（需要 Windows runner）
+build:windows:
+  stage: build
+  tags:
+    - windows
+  before_script:
+    - cd frontend
+    - npm install
+  script:
+    - npm run build
+    - npm run dist -- --win
+  artifacts:
+    paths:
+      - frontend/dist-packages/*.exe
+      - frontend/dist-packages/*.msi
+    expire_in: 1 week
+  only:
+    - main
+    - tags
+  allow_failure: true
+
+# 发布到 GitLab Releases
+release:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  dependencies:
+    - build:linux
+    - build:macos
+    - build:windows
+  script:
+    - echo "Creating release for $CI_COMMIT_TAG"
+  release:
+    tag_name: $CI_COMMIT_TAG
+    description: "Release $CI_COMMIT_TAG"
+    assets:
+      links:
+        - name: "Linux AppImage"
+          url: "$CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_TAG/download?job=build:linux"
+        - name: "macOS DMG"
+          url: "$CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_TAG/download?job=build:macos"
+        - name: "Windows EXE"
+          url: "$CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_TAG/download?job=build:windows"
+  only:
+    - tags
+  when: manual
