@@ -1,0 +1,417 @@
+/* Bear 笔记风格全局样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, #root {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #2c3e50;
+  background-color: #FAFAFA;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Bear App 主容器 */
+.bear-app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #FAFAFA;
+}
+
+/* 顶部标题栏 */
+.bear-header {
+  height: 60px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E8E8E8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-icon {
+  font-size: 24px;
+  color: #FF6B35;
+}
+
+.app-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.version-badge {
+  background: #F0F0F0;
+  color: #666;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* 主容器布局 */
+.bear-container {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* 左侧输入面板 */
+.input-panel {
+  width: 400px;
+  background: #FFFFFF;
+  border-right: 1px solid #E8E8E8;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* 右侧结果面板 */
+.result-panel {
+  flex: 1;
+  background: #F8F9FA;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* 面板区块 */
+.panel-section {
+  padding: 24px;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.panel-section:last-child {
+  border-bottom: none;
+  flex: 1;
+}
+
+/* 区块标题 */
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 16px 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+/* Bear 风格文本域 */
+.bear-textarea {
+  border: 2px solid #E8E8E8 !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  resize: none !important;
+  transition: all 0.2s ease !important;
+  background: #FAFAFA !important;
+}
+
+.bear-textarea:focus {
+  border-color: #FF6B35 !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1) !important;
+  background: #FFFFFF !important;
+}
+
+.bear-textarea::placeholder {
+  color: #999 !important;
+  line-height: 1.6 !important;
+}
+
+/* 参数控制组 */
+.param-group {
+  margin-bottom: 20px;
+}
+
+.param-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+/* Bear 风格选择器 */
+.bear-select {
+  width: 100% !important;
+  border-radius: 8px !important;
+}
+
+.bear-select .ant-select-selector {
+  border: 2px solid #E8E8E8 !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  height: auto !important;
+}
+
+.bear-select:hover .ant-select-selector {
+  border-color: #FF6B35 !important;
+}
+
+.bear-select.ant-select-focused .ant-select-selector {
+  border-color: #FF6B35 !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1) !important;
+}
+
+/* Bear 风格滑块 */
+.bear-slider {
+  margin: 8px 0 !important;
+}
+
+.bear-slider .ant-slider-rail {
+  background: #E8E8E8 !important;
+}
+
+.bear-slider .ant-slider-track {
+  background: #FF6B35 !important;
+}
+
+.bear-slider .ant-slider-handle {
+  border: 2px solid #FF6B35 !important;
+  background: #FFFFFF !important;
+}
+
+.bear-slider .ant-slider-handle:hover {
+  border-color: #FF6B35 !important;
+}
+
+/* Bear 风格输入框 */
+.bear-input {
+  border: 2px solid #E8E8E8 !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+.bear-input:focus {
+  border-color: #FF6B35 !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1) !important;
+}
+
+/* 高级设置切换按钮 */
+.toggle-advanced {
+  color: #4A90E2 !important;
+  font-size: 12px !important;
+  padding: 4px 8px !important;
+  height: auto !important;
+}
+
+.toggle-advanced:hover {
+  color: #FF6B35 !important;
+  background: rgba(255, 107, 53, 0.05) !important;
+}
+
+/* 生成区域 */
+.generate-section {
+  padding: 24px;
+  background: #F8F9FA;
+  border-top: 1px solid #E8E8E8;
+  margin-top: auto;
+}
+
+/* 进度显示 */
+.progress-section {
+  margin-bottom: 16px;
+}
+
+.bear-progress .ant-progress-bg {
+  background: #FF6B35 !important;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Bear 风格生成按钮 */
+.bear-generate-btn {
+  width: 100% !important;
+  height: 48px !important;
+  background: #FF6B35 !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3) !important;
+  transition: all 0.2s ease !important;
+}
+
+.bear-generate-btn:hover:not(:disabled) {
+  background: #E55A2B !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4) !important;
+}
+
+.bear-generate-btn:disabled {
+  background: #D0D0D0 !important;
+  color: #999 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* 结果区域 */
+.result-area {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 加载状态 */
+.loading-state {
+  text-align: center;
+  color: #666;
+}
+
+.bear-spin .ant-spin-dot-item {
+  background-color: #FF6B35 !important;
+}
+
+.loading-message {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* 图像结果 */
+.image-result {
+  width: 100%;
+  text-align: center;
+}
+
+.image-wrapper {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+.result-image {
+  max-width: 100%;
+  max-height: 500px;
+  border-radius: 8px;
+  display: block;
+}
+
+/* 图像操作按钮 */
+.image-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.bear-action-btn {
+  background: #4A90E2 !important;
+  border: none !important;
+  color: #FFFFFF !important;
+  border-radius: 8px !important;
+  padding: 8px 16px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.bear-action-btn:hover {
+  background: #357ABD !important;
+  transform: translateY(-1px) !important;
+}
+
+/* 空状态 */
+.empty-result {
+  text-align: center;
+  color: #999;
+  padding: 40px 20px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  color: #D0D0D0;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #666;
+  margin: 0 0 8px 0;
+}
+
+.empty-description {
+  font-size: 14px;
+  color: #999;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 图像显示区域样式 */
+.image-display-area {
+  transition: all 0.3s ease;
+}
+
+.image-display-area:hover {
+  border-color: #1890ff;
+  background: #f6ffed;
+}
+
+/* 加载动画 */
+.ant-spin-dot {
+  color: #1890ff;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .ant-layout-content {
+    padding: 16px;
+  }
+  
+  .ant-card {
+    margin-bottom: 16px;
+  }
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

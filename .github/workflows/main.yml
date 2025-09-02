@@ -1,0 +1,121 @@
+name: Build and Release Electron App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: macos-latest
+            platform: mac
+          - os: windows-latest
+            platform: win
+        
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: 'frontend/package-lock.json'
+        
+    - name: Install dependencies
+      run: |
+        cd frontend
+        npm install
+        
+    - name: Build application
+      run: |
+        cd frontend
+        npm run build
+        
+    - name: Build Electron app (Linux)
+      if: matrix.platform == 'linux'
+      run: |
+        cd frontend
+        npm run dist -- --linux
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Build Electron app (macOS)
+      if: matrix.platform == 'mac'
+      run: |
+        cd frontend
+        npm run dist -- --mac
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        CSC_IDENTITY_AUTO_DISCOVERY: false
+        
+    - name: Build Electron app (Windows)
+      if: matrix.platform == 'win'
+      run: |
+        cd frontend
+        npm run dist -- --win
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Upload Linux artifacts
+      if: matrix.platform == 'linux'
+      uses: actions/upload-artifact@v4
+      with:
+        name: flux-creator-linux
+        path: |
+          frontend/dist-packages/*.AppImage
+          frontend/dist-packages/*.snap
+          frontend/dist-packages/*.deb
+          frontend/dist-packages/*.rpm
+        if-no-files-found: ignore
+        
+    - name: Upload macOS artifacts
+      if: matrix.platform == 'mac'
+      uses: actions/upload-artifact@v4
+      with:
+        name: flux-creator-macos
+        path: |
+          frontend/dist-packages/*.dmg
+          frontend/dist-packages/*.zip
+        if-no-files-found: ignore
+        
+    - name: Upload Windows artifacts
+      if: matrix.platform == 'win'
+      uses: actions/upload-artifact@v4
+      with:
+        name: flux-creator-windows
+        path: |
+          frontend/dist-packages/*.exe
+          frontend/dist-packages/*.msi
+        if-no-files-found: ignore
+        
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          flux-creator-linux/*
+          flux-creator-macos/*
+          flux-creator-windows/*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

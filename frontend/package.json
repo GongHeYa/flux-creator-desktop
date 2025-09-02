@@ -1,0 +1,126 @@
+{
+  "name": "flux-creator-desktop",
+  "private": true,
+  "version": "1.0.0",
+  "description": "FLUX Creator Desktop - AI-powered image generation application",
+  "author": {
+    "name": "FLUX Creator Team",
+    "email": "support@fluxcreator.com"
+  },
+  "maintainer": {
+    "name": "FLUX Creator Team",
+    "email": "support@fluxcreator.com"
+  },
+  "main": "main.js",
+  "homepage": "./",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "electron": "electron .",
+    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "build:electron": "npm run build && electron-builder",
+    "dist": "npm run build && electron-builder",
+    "pack": "electron-builder --dir",
+    "pack:win": "electron-builder --win --dir"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^6.0.0",
+    "antd": "^5.27.1",
+    "axios": "^1.11.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@types/electron": "^1.4.38",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^8.2.2",
+    "electron": "^37.4.0",
+    "electron-builder": "^26.0.12",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.39.1",
+    "vite": "^7.1.2",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.flux.creator",
+    "productName": "FLUX Creator",
+    "directories": {
+      "output": "dist-packages"
+    },
+    "files": [
+      "dist/**/*",
+      "main.js",
+      "preload.js",
+      "package.json"
+    ],
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "snap",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "rpm",
+          "arch": ["x64"]
+        }
+      ],
+      "category": "Graphics",
+      "description": "FLUX Creator - AI Image Generation Desktop Application"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "category": "public.app-category.graphics-design",
+      "icon": "build/icon.icns"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "msi",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "GongHeYa",
+      "repo": "flux-creator-desktop"
+    }
+  }
+}
