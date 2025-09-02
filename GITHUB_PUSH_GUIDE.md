@@ -79,10 +79,10 @@
 
 ```bash
 # 克隆你刚创建的仓库
-git clone https://github.com/GongHeYa/FLUX-.git
+git clone https://github.com/YOUR_USERNAME/flux-creator-desktop.git
 
 # 进入仓库目录
-cd FLUX-
+cd flux-creator-desktop
 ```
 
 ### 第三步：复制项目文件
