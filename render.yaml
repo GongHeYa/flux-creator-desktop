@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: flux-creator-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHONPATH
+        value: /app
+      - key: FLUX_OUTPUT_DIR
+        value: /tmp/flux_images
+      - key: PORT
+        value: 8000
+    scaling:
+      minInstances: 1
+      maxInstances: 3
+    disk:
+      name: flux-storage
+      mountPath: /tmp/flux_images
+      sizeGB: 10

@@ -8,11 +8,20 @@ export interface ApiConfig {
 
 // 默认配置
 const defaultConfig: ApiConfig = {
-  baseUrl: 'http://localhost:8000', // 开发环境默认值
+  baseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000', // 优先使用环境变量
   timeout: 30000, // 30秒超时
   retryAttempts: 3,
   retryDelay: 1000 // 1秒重试延迟
 };
+
+// 云端服务器预设配置
+export const CLOUD_PRESETS = {
+  local: 'http://localhost:8000',
+  railway: '', // 用户需要填入实际的 Railway 域名
+  render: '', // 用户需要填入实际的 Render 域名
+  heroku: '', // 用户需要填入实际的 Heroku 域名
+  custom: '' // 自定义域名
+} as const;
 
 // 从环境变量或本地存储获取配置
 function getApiConfig(): ApiConfig {

@@ -7,8 +7,8 @@ import uuid
 import aiohttp
 from datetime import datetime
 
-from services.comfyui_service import ComfyUIService
-from services.image_service import ImageService
+from ..services.comfyui_service import ComfyUIService
+from ..services.image_service import ImageService
 
 router = APIRouter()
 

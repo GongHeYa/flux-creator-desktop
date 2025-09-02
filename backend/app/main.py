@@ -6,8 +6,8 @@ import uvicorn
 import os
 from typing import Optional
 
-from api.routes import router as api_router
-from services.comfyui_service import ComfyUIService
+from .api.routes import router as api_router
+from .services.comfyui_service import ComfyUIService
 
 # 创建 FastAPI 应用实例
 app = FastAPI(
@@ -19,7 +19,14 @@ app = FastAPI(
 # 配置 CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Vite 开发服务器
+    allow_origins=[
+        "http://localhost:5173",  # Vite 开发服务器
+        "http://localhost:3000",  # React 开发服务器
+        "https://*.railway.app",  # Railway 部署域名
+        "https://*.onrender.com", # Render 部署域名
+        "https://*.herokuapp.com", # Heroku 部署域名
+        "*"  # 允许所有域名（生产环境可根据需要限制）
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -39,6 +46,10 @@ async def global_exception_handler(request, exc):
 # 健康检查端点
 @app.get("/health")
 async def health_check():
+    return {"status": "healthy", "message": "FLUX Creator Desktop API is running"}
+
+@app.get("/api/v1/health")
+async def api_health_check():
     return {"status": "healthy", "message": "FLUX Creator Desktop API is running"}
 
 # 根路径

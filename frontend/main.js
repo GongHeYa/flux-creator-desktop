@@ -24,7 +24,7 @@ function createWindow() {
     // 开发环境下打开开发者工具
     mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+    mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
   }
 
   // 当页面加载完成后显示窗口
