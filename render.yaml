@@ -2,8 +2,7 @@ services:
   - type: web
     name: flux-creator-backend
     env: docker
-    dockerfilePath: backend/Dockerfile
-    dockerContext: .
+    dockerfilePath: Dockerfile
     healthCheckPath: /health
     envVars:
       - key: PYTHONPATH
