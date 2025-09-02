@@ -1,0 +1,26 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#gradient)" stroke="#ffffff" stroke-width="8"/>
+  
+  <!-- FLUX text -->
+  <text x="256" y="200" font-family="Arial, sans-serif" font-size="72" font-weight="bold" text-anchor="middle" fill="#ffffff">FLUX</text>
+  
+  <!-- Creator text -->
+  <text x="256" y="280" font-family="Arial, sans-serif" font-size="36" text-anchor="middle" fill="#ffffff" opacity="0.9">Creator</text>
+  
+  <!-- AI symbol -->
+  <circle cx="256" cy="340" r="20" fill="#ffffff" opacity="0.8"/>
+  <circle cx="230" cy="340" r="12" fill="#ffffff" opacity="0.6"/>
+  <circle cx="282" cy="340" r="12" fill="#ffffff" opacity="0.6"/>
+  
+  <!-- Connecting lines -->
+  <line x1="242" y1="340" x2="270" y2="340" stroke="#ffffff" stroke-width="3" opacity="0.7"/>
+  <line x1="270" y1="340" x2="282" y2="340" stroke="#ffffff" stroke-width="2" opacity="0.5"/>
+</svg>
